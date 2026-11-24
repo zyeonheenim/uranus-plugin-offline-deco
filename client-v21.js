@@ -554,32 +554,34 @@ function makeStyleButton() {
 /**
  * 找「样式」按钮的锚点：线下模式那张卡片的标题。
  *
- * 🔴 判据用「页面上有没有标题写着『线下模式』的卡片」，**不**用
+ * 🔴 判据用「页面上有没有标题写着『线下模式』的**卡片**」，**不**用
  * 「导航栏名字含不含『线下』」——导航项是角色/场景名（用户自己起的名字），
  * 一个都不含『线下』，按导航名判断会全线失灵（气泡颜色会变、按钮却永远不出现）。
- * offline.jsx 里那张 Card 的 title 固定是「线下模式」，且只要 state 存在就渲染，
- * 所有线下模式页面都长这样 —— 是通用的锚点。
  *
- * 兜底还是「提示词」按钮（同样只在 offline 面板里）。
+ * 🔴 关键是分清 **Card** 和 **Fold**：
+ *   - Card（真线下页，offline.jsx）→ <section data-anchor="线下模式"> 里是 <h2>
+ *   - Fold（角色页那个同名折叠栏，role.jsx）→ <section className="border-t border-line">
+ *     **没有 data-anchor**，标题是 <span> 不是 <h2>
+ * 所以 `section[data-anchor="线下模式"] h2` 这一档天生不会误判角色页。
+ *
+ * 🔴 兜底绝不能用「总结」「提示词」——消息记录页也有「总结」按钮，会全线误判。
+ * 兜底只认「开启新剧情」，这个按钮只存在于 offline.jsx 的工具栏里（角色页那个
+ * 是 Fold 里的文字说明，不是按钮）。
  */
 function findAnchor() {
-  // Card 的 title 是字符串时，ui.jsx 会写成 <section data-anchor="线下模式">
+  // ① Card 的 title 是字符串时，ui.jsx 会写成 <section data-anchor="线下模式">
   const card = document.querySelector('section[data-anchor="线下模式"]');
   const h2 = card ? card.querySelector("h2") : null;
   if (h2) return h2;
-  // 退一步：按标题文字找 h2
+  // ② 兜底：「开启新剧情」按钮 —— 只在 offline.jsx 的工具栏里
+  const btns = Array.from(document.querySelectorAll("button"));
+  const newStory = btns.find((b) => /开启新剧情/.test(b.textContent || ""));
+  if (newStory) return newStory;
+  // ③ 再兜底：h2 文字（可能是别的 Card 也叫这名字）
   const byText = Array.from(document.querySelectorAll("h2")).find(
     (el) => (el.textContent || "").trim() === "线下模式",
   );
-  if (byText) return byText;
-  // 再退一步：工具栏里的「提示词」
-  const btns = Array.from(document.querySelectorAll("button"));
-  return (
-    btns.find((b) => /提示词/.test(b.textContent || "")) ||
-    btns.find((b) => /总结/.test(b.textContent || "")) ||
-    btns.find((b) => /开启新剧情|开始演/.test(b.textContent || "")) ||
-    null
-  );
+  return byText || null;
 }
 
 /**

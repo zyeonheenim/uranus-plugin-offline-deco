@@ -66,6 +66,10 @@
 
 ---
 
+## 已知行为
+
+- **四钮和「样式」按钮都只在线下剧情页出现**。判定用的是「线下模式」那张卡片本身（`section[data-anchor="线下模式"]`），不是导航栏名字 —— 导航项可能叫角色名或场景名，靠名字判会误判到别的页面。
+
 ## 和原源码补丁的差别
 
 - 原补丁把气泡样式存在 `data/offline-bubbles.json`、走 `GET/PUT /api/offline-bubbles`（新增路由）；插件用现成的 `/api/plugins/<id>/config`，不用改服务端。
