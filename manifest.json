@@ -1,0 +1,14 @@
+{
+  "id": "uranus-plugin-jump-buttons",
+  "name": "剧情四钮跳转",
+  "version": "1.0.2",
+  "author": "zyeonheenim",
+  "repo": "https://github.com/zyeonheenim/uranus-plugin-jump-buttons",
+  "description": "线下剧情右缘加四个圆钮：跳到最上面、上一条我的发言、下一条我的发言、跳到最新。纯界面改动，不碰存档。",
+  "uranus": ">=1.23.0",
+  "entry": {
+    "client": "client.js",
+    "css": "style.css"
+  },
+  "permissions": []
+}

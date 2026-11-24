@@ -1,0 +1,57 @@
+/*
+ * 剧情四钮跳转 · 右缘居中的四个圆钮
+ *
+ * 样式照原版 offline.jsx 1:1 复刻：
+ *   flex h-9 w-9 items-center justify-center rounded-full
+ *   border border-line/60 bg-paper/55 text-ink-soft
+ *   shadow-sm backdrop-blur-sm transition-colors duration-150
+ *   hover:border-ink-soft/60 hover:bg-paper/85 hover:text-ink
+ *
+ * 用原版设计变量（值是 "R G B"，配 rgb(... / alpha) 拼透明度），
+ * 深浅色、自定义壁纸都跟着主题走。变量取不到时用 fallback 兜底。
+ */
+#uranus-jump-buttons-v1 {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20; /* 与原版 z-20 一致 */
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* gap-1.5 = 6px */
+}
+
+#uranus-jump-buttons-v1 .uranus-jump-buttons-v1-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;  /* h-9 w-9 */
+  height: 36px;
+  padding: 0;
+  border-radius: 9999px; /* rounded-full */
+
+  /* border-line/60 —— 唯一边框色，60% 浓度 */
+  border: 1px solid rgb(var(--line, 216 216 216) / 0.6);
+  /* bg-paper/55 —— 纸张色 55% 半透明 */
+  background: rgb(var(--paper, 255 255 255) / 0.55);
+  /* text-ink-soft */
+  color: rgb(var(--ink-soft, 97 97 97));
+
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+  backdrop-filter: blur(4px);  /* backdrop-blur-sm */
+  -webkit-backdrop-filter: blur(4px);
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s; /* transition-colors duration-150 */
+}
+
+#uranus-jump-buttons-v1 .uranus-jump-buttons-v1-btn:hover {
+  /* hover:border-ink-soft/60 hover:bg-paper/85 hover:text-ink */
+  border-color: rgb(var(--ink-soft, 97 97 97) / 0.6);
+  background: rgb(var(--paper, 255 255 255) / 0.85);
+  color: rgb(var(--ink, 24 24 27));
+}
+
+#uranus-jump-buttons-v1 .uranus-jump-buttons-v1-btn svg {
+  width: 15px;
+  height: 15px;
+}
