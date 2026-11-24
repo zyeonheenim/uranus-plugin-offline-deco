@@ -1,0 +1,139 @@
+{
+  "id": "uranus-plugin-offline-deco",
+  "name": "线下剧情增强",
+  "version": "2.0.0",
+  "author": "zyeonheenim",
+  "repo": "https://github.com/zyeonheenim/uranus-plugin-offline-deco",
+  "description": "线下剧情两件套：右缘四个跳转圆钮（回顶/上条我的发言/下条我的发言/回底）+ 「样式」按钮实时调两侧气泡配色，改完自动存服务端，手机电脑同一份。纯界面改动，不碰存档。",
+  "uranus": ">=1.23.0",
+  "entry": {
+    "client": "client-v2.js",
+    "css": "style-v2.css"
+  },
+  "permissions": [],
+  "config": [
+    {
+      "key": "mode",
+      "type": "select",
+      "title": "气泡模式",
+      "desc": "跟随主题＝一个样式都不盖；自定义＝用下面的配色",
+      "options": [
+        {
+          "value": "theme",
+          "label": "跟随主题"
+        },
+        {
+          "value": "custom",
+          "label": "自定义"
+        }
+      ],
+      "default": "custom"
+    },
+    {
+      "key": "userBg",
+      "type": "string",
+      "title": "我这边 · 底色",
+      "default": "#e6f0fa",
+      "maxLength": 32
+    },
+    {
+      "key": "userBgAlpha",
+      "type": "number",
+      "title": "我这边 · 底色不透明度",
+      "default": 100,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "key": "userBorder",
+      "type": "string",
+      "title": "我这边 · 边框色",
+      "default": "#b9cfe4",
+      "maxLength": 32
+    },
+    {
+      "key": "userBorderAlpha",
+      "type": "number",
+      "title": "我这边 · 边框不透明度",
+      "default": 100,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "key": "userBorderWidth",
+      "type": "number",
+      "title": "我这边 · 边框宽度 px",
+      "default": 1,
+      "min": 0,
+      "max": 12
+    },
+    {
+      "key": "userText",
+      "type": "string",
+      "title": "我这边 · 文字色",
+      "default": "#2f3a4a",
+      "maxLength": 32
+    },
+    {
+      "key": "userRadius",
+      "type": "number",
+      "title": "我这边 · 圆角",
+      "default": 16,
+      "min": 0,
+      "max": 40
+    },
+    {
+      "key": "assistantBg",
+      "type": "string",
+      "title": "角色那边 · 底色",
+      "default": "#fdf6e8",
+      "maxLength": 32
+    },
+    {
+      "key": "assistantBgAlpha",
+      "type": "number",
+      "title": "角色那边 · 底色不透明度",
+      "default": 100,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "key": "assistantBorder",
+      "type": "string",
+      "title": "角色那边 · 边框色",
+      "default": "#e8dcc0",
+      "maxLength": 32
+    },
+    {
+      "key": "assistantBorderAlpha",
+      "type": "number",
+      "title": "角色那边 · 边框不透明度",
+      "default": 100,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "key": "assistantBorderWidth",
+      "type": "number",
+      "title": "角色那边 · 边框宽度 px",
+      "default": 1,
+      "min": 0,
+      "max": 12
+    },
+    {
+      "key": "assistantText",
+      "type": "string",
+      "title": "角色那边 · 文字色",
+      "default": "#3f3a30",
+      "maxLength": 32
+    },
+    {
+      "key": "assistantRadius",
+      "type": "number",
+      "title": "角色那边 · 圆角",
+      "default": 16,
+      "min": 0,
+      "max": 40
+    }
+  ]
+}

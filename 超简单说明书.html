@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>剧情增强（四钮跳转 + 气泡样式）· 超简单说明书</title>
+<style>
+  :root{
+    --paper:#ffffff; --ink:#1c1c1e; --soft:#5a5a5f; --faint:#8c8c93;
+    --line:#e3e3e6; --sunken:#f5f5f7;
+    --green:#0f7a4d; --green-dk:#0a5c39; --green-bg:#e8f6ef; --green-lt:#f2fbf6;
+    --warn:#cf3a2c; --warn-bg:#fdf0ee;
+    --shadow:0 4px 18px rgba(20,40,30,.08);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--sunken);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px;}
+  header{background:linear-gradient(135deg,#0a5c39,#12945c);color:#fff;padding:52px 20px 44px;text-align:center;}
+  header .kick{font-size:14px;letter-spacing:2px;opacity:.85;font-weight:600;}
+  header h1{font-size:38px;margin:12px 0 8px;line-height:1.25;}
+  header p{font-size:18px;margin:0;opacity:.92;}
+  header .badge{display:inline-block;margin-top:18px;background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 18px;font-size:14px;}
+  section{background:var(--paper);border:1px solid var(--line);border-radius:18px;
+    padding:30px 32px;margin:22px 0;box-shadow:var(--shadow);}
+  h2{font-size:26px;margin:0 0 6px;display:flex;align-items:center;gap:12px;}
+  h2 .num{display:inline-flex;width:38px;height:38px;border-radius:12px;background:var(--green-bg);
+    color:var(--green);align-items:center;justify-content:center;font-size:20px;flex:none;font-weight:700;}
+  .lead{color:var(--soft);font-size:16px;margin:0 0 20px;}
+  h3{font-size:19px;margin:26px 0 10px;}
+  p{margin:10px 0;}
+  .big{font-size:17px;}
+  .callout{border-radius:14px;padding:16px 20px;margin:18px 0;font-size:16px;}
+  .callout.tip{background:var(--green-bg);border-left:5px solid var(--green);}
+  .callout.warn{background:var(--warn-bg);border-left:5px solid var(--warn);}
+  .callout.good{background:var(--green-lt);border-left:5px solid var(--green-dk);}
+  .callout b{color:var(--ink);}
+  figure{margin:20px 0;text-align:center;}
+  figure svg{max-width:100%;height:auto;}
+  figcaption{color:var(--faint);font-size:14px;margin-top:8px;}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px;}
+  th,td{border:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top;}
+  th{background:var(--green-lt);font-weight:600;}
+  .dot{display:inline-block;width:13px;height:13px;border-radius:50%;vertical-align:-1px;margin-right:7px;}
+  .dot.g{background:var(--green);} .dot.r{background:var(--warn);}
+  .pill{display:inline-block;border-radius:999px;padding:2px 11px;font-size:13px;font-weight:600;}
+  .pill.g{background:var(--green-bg);color:var(--green);} .pill.r{background:var(--warn-bg);color:var(--warn);}
+  .steps{counter-reset:s;margin:18px 0;}
+  .step{position:relative;padding:16px 20px 16px 66px;border:1px solid var(--line);
+    border-radius:14px;margin:12px 0;background:var(--paper);}
+  .step::before{counter-increment:s;content:counter(s);position:absolute;left:18px;top:16px;
+    width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;}
+  .step b{font-size:17px;}
+  code{background:var(--sunken);border:1px solid var(--line);border-radius:6px;
+    padding:2px 8px;font-size:14px;font-family:"SF Mono",Consolas,monospace;}
+  details{border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:10px 0;}
+  summary{cursor:pointer;font-weight:600;font-size:16px;}
+  details p{color:var(--soft);margin:12px 0 2px;}
+  .kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;
+    padding:1px 8px;background:#fff;font-size:14px;font-family:inherit;}
+  footer{text-align:center;color:var(--faint);font-size:14px;padding:30px 20px;}
+  .mini{font-size:14px;color:var(--faint);}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0;}
+  @media(max-width:680px){.twocol{grid-template-columns:1fr;}
+    header h1{font-size:29px;}section{padding:22px 20px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kick">Uranus 插件 · 使用说明</div>
+  <h1>剧情增强</h1>
+  <p>四个跳转圆钮 ＋ 一个「样式」按钮</p>
+  <div class="badge">v2.0.0 · 超简单说明书</div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2><span class="num">?</span>它是干嘛的？一句话</h2>
+  <p class="big">演长剧情的时候，有两件事很烦：<b>找不到自己在哪一段</b>，还有<b>气泡颜色太素、想改成自己顺眼的</b>。</p>
+  <p class="big">装了这个插件之后：<b>屏幕右缘多四个小圆钮</b>帮你跳，<b>「线下模式」标题旁多一个「样式」按钮</b>让你现场调配色。</p>
+  <div class="callout tip">💡 说白了：<b>它就是给线下剧情加了"快捷跳转"和"换肤"两个功能</b>，剩下的什么都没动。</div>
+</section>
+
+<section>
+  <h2><span class="num">1</span>四个跳转圆钮</h2>
+  <p class="lead">在<b>线下剧情页的右边缘</b>，从上到下四个半透明小圆钮。</p>
+
+  <figure>
+  <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,PingFang SC,sans-serif">
+    <rect x="0" y="0" width="720" height="320" rx="14" fill="#f5f5f7"/>
+    <rect x="26" y="22" width="560" height="276" rx="10" fill="#fff" stroke="#e3e3e6"/>
+    <text x="44" y="52" font-size="15" fill="#8c8c93">线下剧情（往上滚了很久）</text>
+    <rect x="44" y="66" width="330" height="52" rx="8" fill="#fdf6e8" stroke="#e8dcc0"/>
+    <text x="58" y="90" font-size="13" fill="#3f3a30">「你来了，手怎么这么凉。」</text>
+    <text x="58" y="108" font-size="13" fill="#3f3a30">他把外套往你肩上搭。</text>
+    <rect x="300" y="134" width="240" height="42" rx="8" fill="#e6f0fa" stroke="#b9cfe4"/>
+    <text x="314" y="160" font-size="13" fill="#2f3a4a">「没多久。刚到。」</text>
+    <text x="44" y="204" font-size="13" fill="#8c8c93">… 上面还有 80 轮 …</text>
+    <rect x="44" y="216" width="330" height="52" rx="8" fill="#fdf6e8" stroke="#e8dcc0"/>
+    <text x="58" y="246" font-size="13" fill="#3f3a30">「坐这儿等多久了。」</text>
+
+    <!-- 四个圆钮 -->
+    <g>
+      <circle cx="640" cy="76" r="19" fill="#ffffff" fill-opacity="0.55" stroke="#d8d8d8"/>
+      <path d="M633 82 L640 74 L647 82" fill="none" stroke="#616161" stroke-width="2" stroke-linecap="round"/>
+      <path d="M633 89 L640 81 L647 89" fill="none" stroke="#616161" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="640" cy="128" r="19" fill="#ffffff" fill-opacity="0.55" stroke="#d8d8d8"/>
+      <path d="M634 134 L640 127 L646 134" fill="none" stroke="#616161" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="640" cy="180" r="19" fill="#ffffff" fill-opacity="0.55" stroke="#d8d8d8"/>
+      <path d="M634 174 L640 181 L646 174" fill="none" stroke="#616161" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="640" cy="232" r="19" fill="#ffffff" fill-opacity="0.55" stroke="#d8d8d8"/>
+      <path d="M633 226 L640 234 L647 226" fill="none" stroke="#616161" stroke-width="2" stroke-linecap="round"/>
+      <path d="M633 233 L640 241 L647 233" fill="none" stroke="#616161" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <text x="612" y="272" font-size="12" fill="#0f7a4d" font-weight="600">四个圆钮</text>
+    <path d="M640 254 L640 262" stroke="#0f7a4d" stroke-width="1.5" fill="none"/>
+  </svg>
+  <figcaption>右缘四个半透明圆钮，从上到下依次是：回顶 / 上一条我说的 / 下一条我说的 / 回到底</figcaption>
+  </figure>
+
+  <table>
+    <tr><th>按钮</th><th>点了会怎样</th></tr>
+    <tr><td><b>⇤⇤</b> 双箭头朝上</td><td>一下回到最上面（开头）</td></tr>
+    <tr><td><b>⇡</b> 单箭头朝上</td><td>跳到<b>你上一句</b>说的话</td></tr>
+    <tr><td><b>⇣</b> 单箭头朝下</td><td>跳到<b>你下一句</b>说的话</td></tr>
+    <tr><td><b>⇥⇥</b> 双箭头朝下</td><td>一下跳到最新（最末尾）</td></tr>
+  </table>
+
+  <div class="callout good"><span class="dot g"></span><b>重点：</b>中间那两个箭头跳的是<b>你自己说过的话</b>，不是每一轮对话。想找自己上一句说了什么，点一下就回去了。</div>
+</section>
+
+<section>
+  <h2><span class="num">2</span>「样式」按钮在哪？</h2>
+  <p class="lead">在<b>线下模式</b>这张卡片的标题右边，和「提示词」那一排按钮是同一区域，但更靠左、贴在标题后面。</p>
+
+  <figure>
+  <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,PingFang SC,sans-serif">
+    <rect x="0" y="0" width="720" height="200" rx="14" fill="#f5f5f7"/>
+    <rect x="26" y="24" width="668" height="152" rx="10" fill="#fff" stroke="#e3e3e6"/>
+    <text x="46" y="62" font-size="19" fill="#1c1c1e" font-family="Georgia,serif">线下模式</text>
+    <g>
+      <rect x="130" y="42" width="78" height="30" rx="999" fill="#e8f6ef" stroke="#0f7a4d"/>
+      <circle cx="146" cy="57" r="6" fill="none" stroke="#0f7a4d" stroke-width="1.6"/>
+      <circle cx="143" cy="54" r="1.6" fill="#0f7a4d"/><circle cx="149" cy="54" r="1.6" fill="#0f7a4d"/>
+      <path d="M146 63c0-1.6 1.2-2.4 2.8-2.4" fill="none" stroke="#0f7a4d" stroke-width="1.6"/>
+      <text x="155" y="62" font-size="13" fill="#0f7a4d" font-weight="600">样式</text>
+    </g>
+    <text x="130" y="90" font-size="12" fill="#0f7a4d">↑ 就在这儿，标题右边</text>
+    <g font-size="13" fill="#616161">
+      <rect x="330" y="44" width="118" height="26" rx="999" fill="none" stroke="#d8d8d8"/>
+      <text x="344" y="61">结束当前线下</text>
+      <rect x="458" y="44" width="92" height="26" rx="999" fill="none" stroke="#d8d8d8"/>
+      <text x="472" y="61">开启新剧情</text>
+      <rect x="560" y="44" width="56" height="26" rx="999" fill="none" stroke="#d8d8d8"/>
+      <text x="576" y="61">总结</text>
+      <rect x="626" y="44" width="56" height="26" rx="999" fill="none" stroke="#d8d8d8"/>
+      <text x="642" y="61">提示词</text>
+    </g>
+    <text x="46" y="140" font-size="13" fill="#8c8c93">下面才是剧情内容……</text>
+  </svg>
+  <figcaption>「样式」按钮固定贴在「线下模式」标题右边 —— 窗口怎么缩都在，不会跑到屏幕外找不到</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2><span class="num">3</span>点开「样式」是什么样？</h2>
+  <p class="lead">一个方方正正的弹窗：上面是实时预览，下面是各种颜色滑杆。</p>
+
+  <figure>
+  <svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,PingFang SC,sans-serif">
+    <rect x="0" y="0" width="720" height="400" rx="14" fill="#1c1c1e" fill-opacity="0.25"/>
+    <rect x="170" y="20" width="380" height="360" fill="#fff" stroke="#d8d8d8"/>
+    <text x="192" y="50" font-size="16" fill="#1c1c1e" font-family="Georgia,serif">气泡样式</text>
+    <text x="192" y="70" font-size="11" fill="#8c8c93">线下剧情里气泡的外观 · 改了自动保存</text>
+    <path d="M520 44 l6 6 M526 44 l-6 6" stroke="#8c8c93" stroke-width="1.6"/>
+
+    <rect x="192" y="84" width="336" height="76" rx="6" fill="#f5f5f7" stroke="#e3e3e6"/>
+    <rect x="204" y="94" width="220" height="28" rx="6" fill="#fdf6e8" stroke="#e8dcc0"/>
+    <text x="212" y="112" font-size="11" fill="#3f3a30">「你来了，手怎么这么凉。」</text>
+    <rect x="392" y="126" width="124" height="24" rx="6" fill="#e6f0fa" stroke="#b9cfe4"/>
+    <text x="400" y="142" font-size="11" fill="#2f3a4a">「没多久。刚到。」</text>
+
+    <rect x="192" y="176" width="86" height="24" rx="999" fill="none" stroke="#d8d8d8"/>
+    <text x="206" y="192" font-size="12" fill="#8c8c93">跟随主题</text>
+    <rect x="284" y="176" width="62" height="24" rx="999" fill="#fff" stroke="#616161"/>
+    <text x="299" y="192" font-size="12" fill="#1c1c1e">自定义</text>
+
+    <rect x="192" y="210" width="58" height="24" rx="999" fill="none" stroke="#d8d8d8"/>
+    <text x="206" y="226" font-size="12" fill="#8c8c93">我这边</text>
+    <rect x="256" y="210" width="74" height="24" rx="999" fill="#fff" stroke="#616161"/>
+    <text x="268" y="226" font-size="12" fill="#1c1c1e">角色那边</text>
+
+    <g font-size="12" fill="#a8a8a8">
+      <text x="192" y="264">背景颜色</text>
+      <rect x="272" y="250" width="40" height="26" rx="6" fill="#fdf6e8" stroke="#d8d8d8"/>
+      <text x="192" y="294">背景不透明度</text>
+      <rect x="272" y="283" width="180" height="4" rx="2" fill="#d8d8d8"/>
+      <circle cx="452" cy="285" r="6" fill="#616161"/>
+      <text x="472" y="294">100%</text>
+      <text x="192" y="324">圆角半径</text>
+      <rect x="272" y="313" width="180" height="4" rx="2" fill="#d8d8d8"/>
+      <circle cx="332" cy="315" r="6" fill="#616161"/>
+      <text x="472" y="324">16</text>
+    </g>
+
+    <path d="M192 344 h336" stroke="#e3e3e6"/>
+    <rect x="404" y="354" width="62" height="24" rx="999" fill="none" stroke="#d8d8d8"/>
+    <text x="416" y="370" font-size="12" fill="#616161">恢复默认</text>
+    <rect x="474" y="354" width="54" height="24" fill="#1c1c1e"/>
+    <text x="487" y="370" font-size="12" fill="#fafafa">完成</text>
+  </svg>
+  <figcaption>弹窗样子：预览 → 跟随主题/自定义 → 我这边/角色那边 → 具体颜色和滑杆 → 底部按钮</figcaption>
+  </figure>
+
+  <div class="twocol">
+    <div>
+      <h3>上面这一块</h3>
+      <p><b>预览</b>：两条样例气泡，你改什么它们立刻变什么。</p>
+      <p><b>跟随主题</b>：<span class="pill g">推荐</span> 一个样式都不盖，气泡完全跟着主题走，等于没装这个功能。</p>
+      <p><b>自定义</b>：用下面调的配色。</p>
+    </div>
+    <div>
+      <h3>下面这一块</h3>
+      <p><b>我这边 / 角色那边</b>：分两套，各调各的。</p>
+      <p>能调：底色、底色深浅、边框色、边框深浅、边框粗细、文字色、圆角。</p>
+    </div>
+  </div>
+
+  <div class="callout good"><span class="dot g"></span><b>最省心的一点：</b>改完<b>不用点保存</b>，它自己就存好了。关掉弹窗就行。<br>而且存的是<b>服务端</b>，所以<b>手机上调完，电脑上打开也是一样的颜色</b>。</div>
+</section>
+
+<section>
+  <h2><span class="num">4</span>三步装好</h2>
+  <div class="steps">
+    <div class="step"><b>控制台 → 插件</b>，把本插件装上，打开开关。</div>
+    <div class="step"><b>刷新页面</b>（Mac：<span class="kbd">⌘</span><span class="kbd">⇧</span><span class="kbd">R</span>，Windows：<span class="kbd">Ctrl</span><span class="kbd">⇧</span><span class="kbd">R</span>）。</div>
+    <div class="step"><b>进线下模式页</b>：右缘出现四个圆钮，「线下模式」标题右边出现「样式」按钮。</div>
+  </div>
+  <div class="callout warn"><span class="dot r"></span><b>换了版本还是看不到？</b>多半是浏览器缓存了旧文件。<b>把标签页整个关掉再重新打开</b>，比按刷新管用得多。</div>
+</section>
+
+<section>
+  <h2><span class="num">5</span>常见问题</h2>
+
+  <details>
+    <summary>四个圆钮不见了？</summary>
+    <p>① 确认在的是<b>线下剧情页</b>（不是 iMessage 聊天页）。② 刷新或重开标签页。③ 确认插件开关是开的。</p>
+  </details>
+
+  <details>
+    <summary>「样式」按钮不见了？</summary>
+    <p>① 确认在<b>线下模式</b>页面上。② 刷新或重开标签页。③ 如果连四钮也一起没了，多半是插件没加载成功 —— 把控制台完全关掉再开一次。</p>
+  </details>
+
+  <details>
+    <summary>颜色改了，但正文里的字看不太清？</summary>
+    <p>把<b>文字色</b>调深一点、或者把<b>底色透明度</b>调低一点（数字变小＝更透）。</p>
+  </details>
+
+  <details>
+    <summary>怎么恢复原来的样子？</summary>
+    <p>点「样式」→ 选<b>「跟随主题」</b> → 完事。或者点底部的<b>「恢复默认」</b>，也是回到跟随主题。</p>
+  </details>
+
+  <details>
+    <summary>会不会动到我的聊天记录？</summary>
+    <p><b>不会。</b>这个插件只改页面上的显示效果，一个字的存档都不碰。</p>
+  </details>
+
+  <details>
+    <summary>Mac 和 Windows 都能用吗？</summary>
+    <p>都能。它是浏览器里跑的代码，服务端装在哪台机器上都一样。</p>
+  </details>
+</section>
+
+<section>
+  <h2><span class="num">6</span>一句话总结</h2>
+  <div class="callout good big">
+    <b>右缘四个钮</b>帮你在长剧情里来回跳；<b>「样式」按钮</b>让你当场把气泡改成自己顺眼的颜色，<b>改完自动存好、手机电脑同步</b>。<br>
+    除了画面上多几个按钮、换个颜色，<b>别的什么都没动</b>。
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>剧情增强 v2.0.0 · Uranus 插件 · MIT 协议</p>
+  <p class="mini">本说明书是给第一次用这个插件的人看的，看完这一页就会用了。</p>
+</footer>
+
+</body>
+</html>
