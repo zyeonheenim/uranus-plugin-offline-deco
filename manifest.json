@@ -1,13 +1,13 @@
 {
   "id": "uranus-plugin-offline-deco",
   "name": "线下剧情增强",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "zyeonheenim",
   "repo": "https://github.com/zyeonheenim/uranus-plugin-offline-deco",
   "description": "线下剧情两件套：右缘四个跳转圆钮（回顶/上条我的发言/下条我的发言/回底）+ 「样式」按钮实时调两侧气泡配色，改完自动存服务端，手机电脑同一份。纯界面改动，不碰存档。",
   "uranus": ">=1.23.0",
   "entry": {
-    "client": "client-v21.js",
+    "client": "client-v22.js",
     "css": "style-v21.css"
   },
   "permissions": [],
