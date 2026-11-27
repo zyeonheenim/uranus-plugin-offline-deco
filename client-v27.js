@@ -699,7 +699,7 @@ export default function init(ctx) {
     document.body.appendChild(b);
   }
   ensureButton();
-  console.info("[气泡样式] v2.2.0 已加载", { mode: state.mode, id: pluginId });
+  console.info("[气泡样式] v2.2.3 已加载", { mode: state.mode, id: pluginId });
 
   const jumpHost = buildJumpHost();
   function refreshJump() {

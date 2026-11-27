@@ -56,7 +56,7 @@
  * 线下剧情增强 · v2.2.3（四钮跳转 + 气泡样式 + 弹窗隔离与防穿透 + 保存草稿机制）
  */
 
-/* ── ① 气泡本体 ────────────────────────────────────────�� */
+/* ── ① 气泡本体 ──────────────────────────────────────── */
 html[data-uranus-bubble-style-v2="on"] [data-uranus-bubble-style-v2="user"] {
   background-color: var(--uranus-bubble-style-v2-user-bg) !important;
   border-color: var(--uranus-bubble-style-v2-user-border) !important;
