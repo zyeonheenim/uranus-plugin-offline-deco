@@ -1,5 +1,5 @@
 /**
- * 线下剧情增强 · 前端插件 v2.2.3（四钮跳转 + 气泡样式 + 弹窗隔离与草稿保存机制）
+ * 线下剧情增强 · 前端插件 v2.2.4（四钮跳转 + 气泡样式 + 弹窗隔离与草稿保存机制）
  *
  * 两件套合成一个插件：
  *
@@ -699,7 +699,7 @@ export default function init(ctx) {
     document.body.appendChild(b);
   }
   ensureButton();
-  console.info("[气泡样式] v2.2.3 已加载", { mode: state.mode, id: pluginId });
+  console.info("[气泡样式] v2.2.4 已加载", { mode: state.mode, id: pluginId });
 
   const jumpHost = buildJumpHost();
   function refreshJump() {
