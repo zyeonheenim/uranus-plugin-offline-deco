@@ -1,14 +1,14 @@
 {
   "id": "uranus-plugin-offline-deco",
   "name": "线下剧情增强",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "author": "zyeonheenim",
   "repo": "https://github.com/zyeonheenim/uranus-plugin-offline-deco",
-  "description": "线下剧情两件套：右缘四个跳转圆钮（回顶/上条我的发言/下条我的发言/回底）+ 「样式」按钮实时调两侧气泡配色，改完自动存服务端，手机电脑同一份。纯界面改动，不碰存档。",
+  "description": "线下剧情两件套：右缘四个跳转圆钮（回顶/上条我的发言/下条我的发言/回底）+ 「样式」按钮实时调两侧气泡配色与彩色毛玻璃磨砂，改完自动存服务端，手机电脑同一份。纯界面改动，不碰存档。",
   "uranus": ">=1.23.0",
   "entry": {
-    "client": "client-v22.js",
-    "css": "style-v21.css"
+    "client": "client-v23.js",
+    "css": "style-v22.css"
   },
   "permissions": [],
   "config": [
@@ -43,6 +43,14 @@
       "default": 100,
       "min": 0,
       "max": 100
+    },
+    {
+      "key": "userBlur",
+      "type": "number",
+      "title": "我这边 · 磨砂模糊度 px",
+      "default": 0,
+      "min": 0,
+      "max": 30
     },
     {
       "key": "userBorder",
@@ -96,6 +104,14 @@
       "default": 100,
       "min": 0,
       "max": 100
+    },
+    {
+      "key": "assistantBlur",
+      "type": "number",
+      "title": "角色那边 · 磨砂模糊度 px",
+      "default": 0,
+      "min": 0,
+      "max": 30
     },
     {
       "key": "assistantBorder",
