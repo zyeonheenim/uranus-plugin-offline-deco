@@ -1,14 +1,14 @@
 {
   "id": "uranus-plugin-offline-deco",
   "name": "线下剧情增强",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "author": "zyeonheenim",
   "repo": "https://github.com/zyeonheenim/uranus-plugin-offline-deco",
-  "description": "线下剧情两件套：右缘四个跳转圆钮（回顶/上条我的发言/下条我的发言/回底）+ 「样式」按钮实时调两侧气泡配色与彩色毛玻璃磨砂，改完自动存服务端，手机电脑同一份。纯界面改动，不碰存档。",
+  "description": "线下剧情两件套：右缘四个跳转圆钮（回顶/上条我的发言/下条我的发言/回底）+ 「样式」按钮实时调两侧气泡配色与彩色毛玻璃磨砂（支持开关与百分比强度），改完自动存服务端，手机电脑同一份。纯界面改动，不碰存档。",
   "uranus": ">=1.23.0",
   "entry": {
-    "client": "client-v23.js",
-    "css": "style-v22.css"
+    "client": "client-v24.js",
+    "css": "style-v23.css"
   },
   "permissions": [],
   "config": [
@@ -45,12 +45,18 @@
       "max": 100
     },
     {
+      "key": "userGlass",
+      "type": "boolean",
+      "title": "我这边 · 开启毛玻璃",
+      "default": false
+    },
+    {
       "key": "userBlur",
       "type": "number",
-      "title": "我这边 · 磨砂模糊度 px",
-      "default": 0,
-      "min": 0,
-      "max": 30
+      "title": "我这边 · 毛玻璃强度 %",
+      "default": 60,
+      "min": 10,
+      "max": 100
     },
     {
       "key": "userBorder",
@@ -106,12 +112,18 @@
       "max": 100
     },
     {
+      "key": "assistantGlass",
+      "type": "boolean",
+      "title": "角色那边 · 开启毛玻璃",
+      "default": false
+    },
+    {
       "key": "assistantBlur",
       "type": "number",
-      "title": "角色那边 · 磨砂模糊度 px",
-      "default": 0,
-      "min": 0,
-      "max": 30
+      "title": "角色那边 · 毛玻璃强度 %",
+      "default": 60,
+      "min": 10,
+      "max": 100
     },
     {
       "key": "assistantBorder",
